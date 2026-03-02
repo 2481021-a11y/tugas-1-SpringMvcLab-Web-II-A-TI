@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['DM Sans', 'sans-serif'],
+                        display: ['DM Serif Display', 'serif'],
+                    },
+                    keyframes: {
+                        fadeUp: { '0%': { opacity:'0', transform:'translateY(20px)' }, '100%': { opacity:'1', transform:'translateY(0)' } },
+                    },
+                    animation: { 'fade-up': 'fadeUp .45s ease both' }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'DM Sans', sans-serif; }
+        .font-display { font-family: 'DM Serif Display', serif; }
+        .tech-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid #f3f4f6;
+            transition: background .18s;
+        }
+        .tech-item:last-child { border-bottom: none; }
+        .tech-item:hover { background: rgba(232,93,38,.04); }
+        .tech-item::before {
+            content: '›';
+            font-size: 1.2rem; font-weight: 700;
+            color: #e85d26; flex-shrink: 0;
+        }
+    </style>
+</head>
+<body class="bg-amber-50 min-h-screen">
+
+<!-- Navbar -->
+<nav style="background:#0f1c2e; border-bottom:3px solid #e85d26;" class="sticky top-0 z-50 shadow-xl">
+    <div class="max-w-5xl mx-auto px-6 py-4 flex items-center">
+        <a href="/" class="font-display text-white text-xl flex items-center gap-2">
+            <span style="color:#e85d26;">◈</span> Spring MVC Lab
+        </a>
+    </div>
+</nav>
+
+<div class="max-w-3xl mx-auto px-6 pt-10 pb-16 animate-fade-up">
+
+    <!-- Header -->
+    <div class="mb-8">
+        <span class="inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-3"
+              style="background:rgba(232,93,38,.1); color:#e85d26;">
+            Informasi Aplikasi
+        </span>
+        <h1 class="font-display text-4xl text-gray-900" th:text="${appName}">App Name</h1>
+    </div>
+
+    <!-- Info Cards -->
+    <div class="grid grid-cols-2 gap-4 mb-8">
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-amber-100">
+            <p class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">Versi</p>
+            <p class="font-bold text-gray-800 text-lg" th:text="${version}">1.0.0</p>
+        </div>
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-amber-100">
+            <p class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-1">Pembuat</p>
+            <p class="font-bold text-gray-800 text-lg" th:text="${author}">Author</p>
+        </div>
+    </div>
+
+    <!-- Technologies -->
+    <div class="bg-white rounded-2xl shadow-md border border-amber-100 overflow-hidden">
+        <!-- Header -->
+        <div class="px-6 py-4 flex items-center gap-3" style="background:linear-gradient(135deg, #0f1c2e, #1a2f4a);">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center text-base" style="background:rgba(232,93,38,.25);">
+                ⚙️
+            </div>
+            <h3 class="font-display text-white text-lg">Teknologi yang Digunakan</h3>
+        </div>
+
+        <!-- List -->
+        <div class="px-2">
+            <div th:each="tech : ${technologies}" class="tech-item">
+                <span class="text-gray-700 font-medium text-sm" th:text="${tech}">Technology</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer CTA -->
+    <div class="mt-8 flex gap-3">
+        <a href="/"
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white shadow-sm transition-all"
+           style="background:#0f1c2e;"
+           onmouseover="this.style.background='#1a2f4a'; this.style.transform='translateY(-1px)';"
+           onmouseout="this.style.background='#0f1c2e'; this.style.transform='translateY(0)';">
+            ← Kembali ke Home
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

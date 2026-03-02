@@ -3,78 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${title}">Detail Produk</title>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['DM Sans', 'sans-serif'],
+                        display: ['DM Serif Display', 'serif'],
+                    },
+                    keyframes: {
+                        fadeUp: {
+                            '0%':   { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    },
+                    animation: { 'fade-up': 'fadeUp .45s ease both' }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'DM Sans', sans-serif; }
+        .font-display { font-family: 'DM Serif Display', serif; }
+    </style>
 </head>
-<body>
+<body class="bg-amber-50 min-h-screen">
 
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" th:href="@{/}">Spring MVC Lab</a>
+<!-- Navbar -->
+<nav style="background:#0f1c2e; border-bottom:3px solid #e85d26;" class="sticky top-0 z-50 shadow-xl">
+    <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+        <a th:href="@{/}" class="font-display text-white text-xl flex items-center gap-2">
+            <span style="color:#e85d26;">◈</span> Spring MVC Lab
+        </a>
+        <div class="flex gap-5 text-sm font-semibold text-white/60">
+            <a th:href="@{/products}" class="hover:text-white transition-colors">Produk</a>
+            <a th:href="@{/about}" class="hover:text-white transition-colors">Tentang</a>
+        </div>
     </div>
 </nav>
 
-<div class="container mt-4">
+<div class="max-w-3xl mx-auto px-6 pt-10 pb-16 animate-fade-up">
 
-    <!-- Jika produk ditemukan -->
-    <div th:if="${product != null}">
-        <h1 th:text="${product.name}">Nama Produk</h1>
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 text-sm text-gray-400 mb-6">
+        <a th:href="@{/}" class="hover:text-gray-700 transition-colors">Home</a>
+        <span>›</span>
+        <a th:href="@{/products}" class="hover:text-gray-700 transition-colors">Produk</a>
+        <span>›</span>
+        <span class="text-gray-600 font-medium" th:text="${title}">Detail</span>
+    </div>
 
-        <div class="card" style="max-width: 500px;">
-            <div class="card-body">
-                <table class="table table-borderless">
-                    <tr>
-                        <th>ID</th>
-                        <td th:text="${product.id}">1</td>
-                    </tr>
-                    <tr>
-                        <th>Nama</th>
-                        <td th:text="${product.name}">Nama</td>
-                    </tr>
-                    <tr>
-                        <th>Kategori</th>
-                        <td>
+    <!-- Product Card -->
+    <div class="bg-white rounded-3xl shadow-xl overflow-hidden border border-amber-100">
+
+        <!-- Card Header -->
+        <div class="px-8 py-6 flex items-center gap-4" style="background:linear-gradient(135deg, #0f1c2e 0%, #1a2f4a 100%);">
+            <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg" style="background:rgba(232,93,38,.2);">
+                📦
+            </div>
+            <div>
+                <p class="text-white/50 text-xs font-semibold uppercase tracking-widest">Detail Produk</p>
+                <h1 class="font-display text-white text-2xl mt-0.5" th:text="${title}">Nama Produk</h1>
+            </div>
+        </div>
+
+        <!-- Product Info -->
+        <div class="p-8">
+            <div th:if="${product != null}">
+                <dl class="grid grid-cols-1 gap-4">
+                    <div class="flex items-start justify-between py-3.5 border-b border-gray-100">
+                        <dt class="text-xs font-bold uppercase tracking-widest text-gray-400">ID Produk</dt>
+                        <dd class="font-semibold text-gray-700" th:text="${product.id}">-</dd>
+                    </div>
+                    <div class="flex items-start justify-between py-3.5 border-b border-gray-100">
+                        <dt class="text-xs font-bold uppercase tracking-widest text-gray-400">Nama</dt>
+                        <dd class="font-semibold text-gray-800 text-right" th:text="${product.name}">-</dd>
+                    </div>
+                    <div class="flex items-start justify-between py-3.5 border-b border-gray-100">
+                        <dt class="text-xs font-bold uppercase tracking-widest text-gray-400">Kategori</dt>
+                        <dd>
                             <a th:href="@{/products/category/{cat}(cat=${product.category})}"
-                               th:text="${product.category}">Kategori</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Harga</th>
-                        <td th:text="'Rp ' + ${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}">
+                               th:text="${product.category}"
+                               class="inline-block text-xs font-bold px-3 py-1 rounded-full"
+                               style="background:rgba(232,93,38,.1); color:#e85d26;">
+                                -
+                            </a>
+                        </dd>
+                    </div>
+                    <div class="flex items-start justify-between py-3.5 border-b border-gray-100">
+                        <dt class="text-xs font-bold uppercase tracking-widest text-gray-400">Harga</dt>
+                        <dd class="font-bold text-xl" style="color:#e85d26;"
+                            th:text="'Rp ' + ${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')}">
                             Rp 0
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>Stok</th>
-                        <td>
-                            <span th:text="${product.stock}">0</span>
-                            <span th:if="${product.stock < 20}" class="badge bg-danger ms-2">
-                                Stok Menipis!
+                        </dd>
+                    </div>
+                    <div class="flex items-start justify-between py-3.5">
+                        <dt class="text-xs font-bold uppercase tracking-widest text-gray-400">Stok</dt>
+                        <dd>
+                            <span th:if="${product.stock >= 20}"
+                                  th:text="${product.stock} + ' unit'"
+                                  class="inline-block px-3 py-1 rounded-full text-sm font-bold bg-green-100 text-green-700">
                             </span>
-                            <span th:if="${product.stock >= 20}" class="badge bg-success ms-2">
-                                Tersedia
+                            <span th:if="${product.stock < 20}"
+                                  th:text="${product.stock} + ' unit (Stok Menipis)'"
+                                  class="inline-block px-3 py-1 rounded-full text-sm font-bold bg-red-100 text-red-600">
                             </span>
-                        </td>
-                    </tr>
-                </table>
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+
+            <!-- Fallback if no product object (uses products list like original) -->
+            <div th:if="${product == null and products != null and !products.isEmpty()}">
+                <p class="text-gray-500 text-sm">Gunakan halaman daftar untuk memilih produk.</p>
             </div>
         </div>
     </div>
 
-    <!-- Jika produk tidak ditemukan -->
-    <div th:if="${product == null}">
-        <div class="alert alert-danger">
-            <h4>Produk Tidak Ditemukan</h4>
-            <p th:text="${error}">Error message</p>
-        </div>
+    <!-- Navigation -->
+    <div class="flex gap-3 mt-6">
+        <a th:href="@{/products}"
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white shadow-sm transition-all"
+           style="background:#0f1c2e;"
+           onmouseover="this.style.background='#1a2f4a'" onmouseout="this.style.background='#0f1c2e'">
+            ← Kembali ke Daftar
+        </a>
+        <a th:href="@{/}"
+           class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all border-2"
+           style="border-color:#e85d26; color:#e85d26;"
+           onmouseover="this.style.background='#e85d26'; this.style.color='white';"
+           onmouseout="this.style.background='transparent'; this.style.color='#e85d26';">
+            Home
+        </a>
     </div>
-
-    <!-- Navigasi -->
-    <div class="mt-3">
-        <a th:href="@{/products}" class="btn btn-secondary">Kembali ke Daftar</a>
-        <a th:href="@{/}" class="btn btn-outline-secondary">Home</a>
-    </div>
-
 </div>
 
 </body>
